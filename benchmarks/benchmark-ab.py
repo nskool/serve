@@ -105,6 +105,7 @@ def benchmark(test_plan, url, gpus, exec_env, concurrency, requests, batch_size,
 
     check_torchserve_health()
     run_benchmark()
+    time.sleep(3)
     generate_report()
 
 
