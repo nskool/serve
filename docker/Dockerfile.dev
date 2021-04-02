@@ -52,8 +52,10 @@ ARG CUDA_VERSION
 RUN if [ "$MACHINE_TYPE" = "gpu" ]; then export USE_CUDA=1; fi \
     && git clone https://github.com/pytorch/serve.git \
     && cd serve \
-    && git checkout ${BRANCH_NAME} \
-    && if [ -z "$CUDA_VERSION" ]; then python ts_scripts/install_dependencies.py --environment=dev; else python ts_scripts/install_dependencies.py --environment=dev  --cuda $CUDA_VERSION; fi \
+    && git fetch --all \
+    && git checkout --track origin/release_0.4.0_nsk \
+    #&& git checkout ${BRANCH_NAME} \
+    && if [ -z "$CUDA_VERSION" ]; then python ts_scripts/install_dependencies.py --environment=dev; else python ts_scripts/install_dependencies.py --environment=dev  --cuda cu102; fi \
     && python ts_scripts/install_from_src.py \
     && useradd -m model-server \
     && mkdir -p /home/model-server/tmp \
@@ -61,7 +63,8 @@ RUN if [ "$MACHINE_TYPE" = "gpu" ]; then export USE_CUDA=1; fi \
     && chmod +x /usr/local/bin/dockerd-entrypoint.sh \
     && chown -R model-server /home/model-server \
     && cp docker/config.properties /home/model-server/config.properties \
-    && mkdir /home/model-server/model-store && chown -R model-server /home/model-server/model-store
+    && mkdir /home/model-server/model-store && chown -R model-server /home/model-server/model-store \
+    && pip install transformers==4.4.2
 
 EXPOSE 8080 8081 8082 7070 7071
 USER model-server
