@@ -4,9 +4,30 @@ import argparse
 
 conda_build_dir = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.join(conda_build_dir, "..", "..")
+MINICONDA_DOWNLOAD_URL = "https://repo.anaconda.com/miniconda/Miniconda3-py39_4.9.2-Linux-x86_64.sh"
+
+def install_conda_build():
+    """
+    Install conda-build, required to create conda packages
+    """
+    os.system(f"conda install conda-build -y")
+
+def install_miniconda():
+    """
+    Installs miniconda, a slimmer anaconda installation to build conda packages
+    """
+    exit_code = os.system(f"wget {MINICONDA_DOWNLOAD_URL} -O ~/miniconda.sh")
+    if exit_code != 0:
+        print(f"miniconda download failed")
+        return exit_code
+    os.system(f"bash ~/miniconda.sh -b -p -f $HOME/miniconda")
 
 
 def conda_build(ts_wheel_path, ma_wheel_path):
+    """
+    Build conda packages for different python versions
+    """
+
     print("## Started torchserve and modelarchiver conda build")
     print(f"## Using torchserve wheel: {ts_wheel_path}")
     print(f"## Using model archiver wheel: {ma_wheel_path}")

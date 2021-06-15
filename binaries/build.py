@@ -6,12 +6,12 @@ import glob
 REPO_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.append(REPO_ROOT)
 
-from ts_scripts.utils import is_conda_env
-from binaries.conda.build_packages import conda_build
+from ts_scripts.utils import is_conda_env, is_conda_build_env
+from binaries.conda.build_packages import conda_build, install_miniconda, install_conda_build
 
 
 def build():
-    print("## Started torchserve and modelarchiver build")
+    print("## Started torchserve, model-archiver and workflow-archiver build")
     create_wheel_cmd = "python setup.py bdist_wheel --release --universal"
 
     # Build torchserve wheel
@@ -32,8 +32,13 @@ def build():
 
     # Build TS & MA on Conda if available
     conda_build_exit_code = 0
-    if is_conda_env():
-        conda_build_exit_code = conda_build(ts_wheel_path, ma_wheel_path)
+    if not is_conda_env():
+        install_miniconda()
+    
+    if not is_conda_build_env():
+        install_conda_build()
+
+    conda_build_exit_code = conda_build(ts_wheel_path, ma_wheel_path)
 
     # If any one of the steps fail, exit with error
     if ts_build_exit_code != 0:
