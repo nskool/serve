@@ -9,7 +9,6 @@ PYPI_USERNAME_ENV_VARIABLE = "TWINE_USERNAME"
 PYPI_PASSWORD_ENV_VARIABLE = "TWINE_PASSWORD"
 
 CONDA_TOKEN_ENV_VARIABLE = "CONDA_TOKEN"
-CONDA_TEST_CHANNEL = "nskool-test"
 CONDA_USER = "nskool"
 
 REPO_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -47,8 +46,6 @@ def upload_conda_packages():
     """
 
     # Identify *.tar.bz2 files to upload
-    # anaconda -t $CONDA_UPLOAD_TOKEN upload --channel nskool --user nskool --label main binaries/conda/output/noarch/torchserve-0.4.0-py37_0.tar.bz2 --all --force
-
     anaconda_token = os.environ[CONDA_TOKEN_ENV_VARIABLE]
 
     for root, _, files in os.walk(CONDA_PACKAGES_PATH):
@@ -65,7 +62,7 @@ def upload_conda_packages():
                     print(f"Anaconda package upload failed for pacakge {name}")
                     return exit_code
 
-    print(f"All packages uploaded to anaconda successfully under the channel {CONDA_TEST_CHANNEL}")
+    print(f"All packages uploaded to anaconda successfully under the channel {CONDA_USER}")
 
 
 if __name__ == "__main__":
