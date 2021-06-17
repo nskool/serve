@@ -1,6 +1,8 @@
 # Build Spec for AWS CodeBuild CI
 
 version: 0.2
+env:
+  shell: bash
 
 phases:
   install:
