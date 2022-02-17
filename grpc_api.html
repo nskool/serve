@@ -6,7 +6,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>TorchServe gRPC API &mdash; PyTorch/Serve master documentation</title>
@@ -27,11 +28,15 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inference API" href="inference_api.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="apis.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -157,7 +162,7 @@
           </li>
 
           <li>
-            <a href="https://github.com/pytorch/pytorch">Github</a>
+            <a href="https://github.com/pytorch/pytorch">GitHub</a>
           </li>
         </ul>
       </div>
@@ -216,14 +221,47 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">TorchServe gRPC API</a><ul>
-<li><a class="reference internal" href="#python-client-example-for-grpc-apis">Python client example for gRPC APIs</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">1. TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">2. Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">3. Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">4. Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">5. Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">6. Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">7. TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">8. Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">9. TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">10. Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">11. Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">12. Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">13. TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">14. TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">15. TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">16. Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">17. TorchServe Workflows</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TorchServe gRPC API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference_api.html">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
 </ul>
-</div>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
+</ul>
+
             
           
         </div>
@@ -254,13 +292,15 @@
   <ul class="pytorch-breadcrumbs">
     
       <li>
-        <a href="index.html">
+        <a href="contents.html">
           
             Docs
           
         </a> &gt;
       </li>
 
+        
+          <li><a href="apis.html">&lt;no title&gt;</a> &gt;</li>
         
       <li>TorchServe gRPC API</li>
     
@@ -294,18 +334,19 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <div class="section" id="torchserve-grpc-api">
+  <section id="torchserve-grpc-api">
 <h1>TorchServe gRPC API<a class="headerlink" href="#torchserve-grpc-api" title="Permalink to this headline">¶</a></h1>
-<p>TorchServe also supports <a class="reference external" href="../frontend/server/src/main/resources/proto">gRPC APIs</a> for both inference and management calls.</p>
+<p><strong>Note</strong>: Current TorchServe gRPC does not support workflow.</p>
+<p>TorchServe also supports <a class="reference external" href="https://github.com/pytorch/serve/tree/master/frontend/server/src/main/resources/proto">gRPC APIs</a> for both inference and management calls.</p>
 <p>TorchServe provides following gRPCs apis</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../frontend/server/src/main/resources/proto/inference.proto">Inference API</a></p>
+<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/frontend/server/src/main/resources/proto/inference.proto">Inference API</a></p>
 <ul>
 <li><p><strong>Ping</strong> : Gets the health status of the running server</p></li>
 <li><p><strong>Predictions</strong> : Gets predictions from the served model</p></li>
 </ul>
 </li>
-<li><p><a class="reference external" href="../frontend/server/src/main/resources/proto/management.proto">Management API</a></p>
+<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/frontend/server/src/main/resources/proto/management.proto">Management API</a></p>
 <ul>
 <li><p><strong>RegisterModel</strong> : Serve a model/model-version on TorchServe</p></li>
 <li><p><strong>UnregisterModel</strong> : Free up system resources by unregistering specific version of a model from TorchServe</p></li>
@@ -318,14 +359,14 @@
 </ul>
 <p>By default, TorchServe listens on port 7070 for the gRPC Inference API and 7071 for the gRPC Management API.
 To configure gRPC APIs on different ports refer <a class="reference internal" href="configuration.html"><span class="doc">configuration documentation</span></a></p>
-<div class="section" id="python-client-example-for-grpc-apis">
+<section id="python-client-example-for-grpc-apis">
 <h2>Python client example for gRPC APIs<a class="headerlink" href="#python-client-example-for-grpc-apis" title="Permalink to this headline">¶</a></h2>
-<p>Run following commands to Register, run inference and unregister, densenet161 model from <a class="reference internal" href="model_zoo.html"><span class="doc">TorchServe model zoo</span></a> using <a class="reference external" href="../ts_scripts/torchserve_grpc_client.py">gRPC python client</a>.</p>
+<p>Run following commands to Register, run inference and unregister, densenet161 model from <a class="reference internal" href="model_zoo.html"><span class="doc">TorchServe model zoo</span></a> using <a class="reference external" href="https://github.com/pytorch/serve/blob/master/ts_scripts/torchserve_grpc_client.py">gRPC python client</a>.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../README.md#install-torchserve-and-torch-model-archiver">Install TorchServe</a></p></li>
+<li><p><a class="reference internal" href="README.html"><span class="doc">Install TorchServe</span></a></p></li>
 <li><p>Clone serve repo to run this example</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/pytorch/serve
 <span class="nb">cd</span> serve
 </pre></div>
 </div>
@@ -366,14 +407,23 @@ torchserve --start
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python ts_scripts/torchserve_grpc_client.py unregister densenet161
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
              </article>
              
             </div>
             <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="inference_api.html" class="btn btn-neutral float-right" title="Inference API" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="apis.html" class="btn btn-neutral" title="&lt;no title&gt;" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
   
 
   
@@ -422,11 +472,12 @@ torchserve --start
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
          <script src="_static/jquery.js"></script>
          <script src="_static/underscore.js"></script>
          <script src="_static/doctools.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
          <script src="_static/katex_autorenderer.js"></script>
      
 

@@ -6,7 +6,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Inference API &mdash; PyTorch/Serve master documentation</title>
@@ -27,11 +28,15 @@
 
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!-- <link rel="stylesheet" href="_static/pygments.css" type="text/css" /> -->
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Management API" href="management_api.html" />
+    <link rel="prev" title="TorchServe gRPC API" href="grpc_api.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -157,7 +162,7 @@
           </li>
 
           <li>
-            <a href="https://github.com/pytorch/pytorch">Github</a>
+            <a href="https://github.com/pytorch/pytorch">GitHub</a>
           </li>
         </ul>
       </div>
@@ -216,32 +221,47 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">Inference API</a><ul>
-<li><a class="reference internal" href="#api-description">API Description</a></li>
-<li><a class="reference internal" href="#health-check-api">Health check API</a></li>
-<li><a class="reference internal" href="#predictions-api">Predictions API</a><ul>
-<li><a class="reference internal" href="#curl-example">curl Example</a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">1. TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">2. Troubleshooting Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">3. Batch Inference with TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_coverage.html">4. Code Coverage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">5. Advanced configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_service.html">6. Custom Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="default_handlers.html">7. TorchServe default inference handlers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">8. Logging in Torchserve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">9. TorchServe Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_zoo.html">10. Model Zoo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">11. Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">12. Running TorchServe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snapshot.html">13. TorchServe model snapshot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">14. TorchServe on Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torchserve_on_wsl.html">15. TorchServe on Windows Subsystem for Linux (WSL)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">16. Torchserve Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows.html">17. TorchServe Workflows</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#id1">curl Example</a></li>
-<li><a class="reference internal" href="#explanations-api">Explanations API</a><ul>
-<li><a class="reference internal" href="#id2">curl example</a></li>
+<p class="caption" role="heading"><span class="caption-text">Service APIs:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="grpc_api.html">TorchServe gRPC API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management_api.html">Management API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics_api.html">Metrics API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rest_api.html">TorchServe REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_inference_api.html">Workflow Inference API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow_management_api.html">Management API</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#kfserving-inference-api">KFServing Inference API</a><ul>
-<li><a class="reference internal" href="#id3">curl example</a></li>
+<p class="caption" role="heading"><span class="caption-text">Developer APIs:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.html">ts package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.request_envelope.html">ts.torch_handler.request_envelope package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.torch_handler.html">ts.torch_handler package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.metrics.html">ts.metrics package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.model_service.html">ts.model_service package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/ts.protocol.html">ts.protocol package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">serve</a></li>
 </ul>
-</li>
-<li><a class="reference internal" href="#kfserving-explanations-api">KFServing Explanations API</a><ul>
-<li><a class="reference internal" href="#id4">curl example</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -272,13 +292,15 @@
   <ul class="pytorch-breadcrumbs">
     
       <li>
-        <a href="index.html">
+        <a href="contents.html">
           
             Docs
           
         </a> &gt;
       </li>
 
+        
+          <li><a href="apis.html">&lt;no title&gt;</a> &gt;</li>
         
       <li>Inference API</li>
     
@@ -312,7 +334,7 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <div class="section" id="inference-api">
+  <section id="inference-api">
 <h1>Inference API<a class="headerlink" href="#inference-api" title="Permalink to this headline">¶</a></h1>
 <p>Inference API is listening on port 8080 and only accessible from localhost by default. To change the default setting, see <a class="reference internal" href="configuration.html"><span class="doc">TorchServe Configuration</span></a>.</p>
 <p>The TorchServe server supports the following APIs:</p>
@@ -321,23 +343,23 @@
 <li><p><a class="reference external" href="#health-check-api">Health check API</a> - Gets the health status of the running server</p></li>
 <li><p><a class="reference external" href="#predictions-api">Predictions API</a> - Gets predictions from the served model</p></li>
 <li><p><a class="reference external" href="#explanations-api">Explanations API</a> - Gets the explanations from the served model</p></li>
-<li><p><a class="reference external" href="#kfserving-inference-api">KFServing Inference API</a> - Gets predictions of the served model from KFServing side</p></li>
-<li><p><a class="reference external" href="#kfserving-explanations-api">KFServing Explanations API</a> - Gets explanations of the served model from KFServing</p></li>
+<li><p><a class="reference external" href="#kserve-inference-api">KServe Inference API</a> - Gets predictions of the served model from KServe</p></li>
+<li><p><a class="reference external" href="#kserve-explanations-api">KServe Explanations API</a> - Gets explanations of the served model from KServe</p></li>
 </ul>
-<div class="section" id="api-description">
+<section id="api-description">
 <h2>API Description<a class="headerlink" href="#api-description" title="Permalink to this headline">¶</a></h2>
 <p>To view a full list of inference APIs, you can use following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X OPTIONS http://localhost:8080
 </pre></div>
 </div>
-<p>The out is OpenAPI 3.0.1 json format. You can use it to generate client code, see <a class="reference external" href="https://swagger.io/swagger-codegen/">swagger codegen</a> for detail.</p>
+<p>The output is in the OpenAPI 3.0.1 json format. You can use it to generate client code, see <a class="reference external" href="https://swagger.io/swagger-codegen/">swagger codegen</a> for more details.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="../frontend/server/src/test/resources/inference_open_api.json">Inference API description output</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pytorch/serve/blob/master/frontend/server/src/test/resources/inference_open_api.json">Inference API description output</a></p></li>
 </ul>
-</div>
-<div class="section" id="health-check-api">
+</section>
+<section id="health-check-api">
 <h2>Health check API<a class="headerlink" href="#health-check-api" title="Permalink to this headline">¶</a></h2>
-<p>This API follows the <a class="reference external" href="../frontend/server/src/main/resources/proto/inference.proto">InferenceAPIsService.Ping</a> gRPC API. It returns the status of a model in the ModelServer.</p>
+<p>This API follows the <a class="reference external" href="https://github.com/pytorch/serve/blob/master/frontend/server/src/main/resources/proto/inference.proto">InferenceAPIsService.Ping</a> gRPC API. It returns the status of a model in the ModelServer.</p>
 <p>TorchServe supports a <code class="docutils literal notranslate"><span class="pre">ping</span></code> API that you can call to check the health status of a running TorchServe server:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl http://localhost:8080/ping
 </pre></div>
@@ -348,15 +370,15 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="predictions-api">
+</section>
+<section id="predictions-api">
 <h2>Predictions API<a class="headerlink" href="#predictions-api" title="Permalink to this headline">¶</a></h2>
-<p>This API follows the <a class="reference external" href="../frontend/server/src/main/resources/proto/inference.proto">InferenceAPIsService.Predictions</a> gRPC API. It returns the status of a model in the ModelServer.</p>
+<p>This API follows the <a class="reference external" href="https://github.com/pytorch/serve/blob/master/frontend/server/src/main/resources/proto/inference.proto">InferenceAPIsService.Predictions</a> gRPC API. It returns the status of a model in the ModelServer.</p>
 <p>To get predictions from the default version of each loaded model, make a REST call to <code class="docutils literal notranslate"><span class="pre">/predictions/{model_name}</span></code>:</p>
 <ul class="simple">
 <li><p>POST /predictions/{model_name}</p></li>
 </ul>
-<div class="section" id="curl-example">
+<section id="curl-example">
 <h3>curl Example<a class="headerlink" href="#curl-example" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -O https://raw.githubusercontent.com/pytorch/serve/master/docs/images/kitten_small.jpg
 
@@ -367,13 +389,23 @@ or:
 curl http://localhost:8080/predictions/resnet-18 -F <span class="s2">&quot;data=@kitten_small.jpg&quot;</span>
 </pre></div>
 </div>
+<p>To get predictions from the loaded model which expects multiple inputs</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl http://localhost:8080/predictions/squeezenet1_1 -F <span class="s1">&#39;data=@docs/images/dogs-before.jpg&#39;</span> -F <span class="s1">&#39;data=@docs/images/kitten_small.jpg&#39;</span>
+
+or:
+
+import requests
+
+<span class="nv">res</span> <span class="o">=</span> requests.post<span class="o">(</span><span class="s2">&quot;http://localhost:8080/predictions/squeezenet1_1&quot;</span>, <span class="nv">files</span><span class="o">={</span><span class="s1">&#39;data&#39;</span>: open<span class="o">(</span><span class="s1">&#39;docs/images/dogs-before.jpg&#39;</span>, <span class="s1">&#39;rb&#39;</span><span class="o">)</span>, <span class="s1">&#39;data&#39;</span>: open<span class="o">(</span><span class="s1">&#39;docs/images/kitten_small.jpg&#39;</span>, <span class="s1">&#39;rb&#39;</span><span class="o">)})</span>
+</pre></div>
+</div>
 <p>To get predictions from a specific version of each loaded model, make a REST call to <code class="docutils literal notranslate"><span class="pre">/predictions/{model_name}/{version}</span></code>:</p>
 <ul class="simple">
 <li><p>POST /predictions/{model_name}/{version}</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="id1">
+</section>
+</section>
+<section id="id1">
 <h2>curl Example<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -O https://raw.githubusercontent.com/pytorch/serve/master/docs/images/kitten_small.jpg
 
@@ -391,15 +423,15 @@ curl http://localhost:8080/predictions/resnet-18/2.0 -F <span class="s2">&quot;d
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="explanations-api">
+</section>
+<section id="explanations-api">
 <h2>Explanations API<a class="headerlink" href="#explanations-api" title="Permalink to this headline">¶</a></h2>
 <p>Torchserve makes use of Captum’s functionality to return the explanations of the models that is served.</p>
 <p>To get explanations from the default version of each loaded model, make a REST call to <code class="docutils literal notranslate"><span class="pre">/explanations/{model_name}</span></code>:</p>
 <ul class="simple">
 <li><p>POST /explanations/{model_name}</p></li>
 </ul>
-<div class="section" id="id2">
+<section id="id2">
 <h3>curl example<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl http://127.0.0.1:8080/explanations/mnist -T examples/image_classifier/mnist/test_data/0.png
 </pre></div>
@@ -425,18 +457,18 @@ curl http://localhost:8080/predictions/resnet-18/2.0 -F <span class="s2">&quot;d
   <span class="p">]</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="kfserving-inference-api">
-<h2>KFServing Inference API<a class="headerlink" href="#kfserving-inference-api" title="Permalink to this headline">¶</a></h2>
-<p>Torchserve makes use of KFServing Inference API to return the predictions of the models that is served.</p>
+</section>
+</section>
+<section id="kserve-inference-api">
+<h2>KServe Inference API<a class="headerlink" href="#kserve-inference-api" title="Permalink to this headline">¶</a></h2>
+<p>Torchserve makes use of KServe Inference API to return the predictions of the models that is served.</p>
 <p>To get predictions from the loaded model, make a REST call to <code class="docutils literal notranslate"><span class="pre">/v1/models/{model_name}:predict</span></code>:</p>
 <ul class="simple">
 <li><p>POST /v1/models/{model_name}:predict</p></li>
 </ul>
-<div class="section" id="id3">
+<section id="id3">
 <h3>curl example<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> --data @kubernetes/kfserving/kf_request_json/mnist.json http://127.0.0.1:8080/v1/models/mnist:predict
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> --data @kubernetes/kserve/kf_request_json/mnist.json http://127.0.0.1:8080/v1/models/mnist:predict
 </pre></div>
 </div>
 <p>The result is a json that gives you the predictions for the input json</p>
@@ -447,18 +479,18 @@ curl http://localhost:8080/predictions/resnet-18/2.0 -F <span class="s2">&quot;d
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="kfserving-explanations-api">
-<h2>KFServing Explanations API<a class="headerlink" href="#kfserving-explanations-api" title="Permalink to this headline">¶</a></h2>
-<p>Torchserve makes use of KFServing API spec  to return the explanations for the the models that is served.</p>
+</section>
+</section>
+<section id="kserve-explanations-api">
+<h2>KServe Explanations API<a class="headerlink" href="#kserve-explanations-api" title="Permalink to this headline">¶</a></h2>
+<p>Torchserve makes use of KServe API spec to return the explanations for the the models that it served.</p>
 <p>To get explanations from the loaded model, make a REST call to <code class="docutils literal notranslate"><span class="pre">/v1/models/{model_name}:explain</span></code>:</p>
 <ul class="simple">
 <li><p>/v1/models/{model_name}:explain</p></li>
 </ul>
-<div class="section" id="id4">
+<section id="id4">
 <h3>curl example<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> --data @kubernetes/kfserving/kf_request_json/mnist.json http://127.0.0.1:8080/v1/models/mnist:explain
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> curl -H <span class="s2">&quot;Content-Type: application/json&quot;</span> --data @kubernetes/kserve/kf_request_json/mnist.json http://127.0.0.1:8080/v1/models/mnist:explain
 </pre></div>
 </div>
 <p>The result is a json that gives you the explanations for the input json</p>
@@ -484,15 +516,24 @@ curl http://localhost:8080/predictions/resnet-18/2.0 -F <span class="s2">&quot;d
 <span class="p">}</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
              </article>
              
             </div>
             <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="management_api.html" class="btn btn-neutral float-right" title="Management API" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
+      
+      
+        <a href="grpc_api.html" class="btn btn-neutral" title="TorchServe gRPC API" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
+      
+    </div>
   
 
   
@@ -534,11 +575,11 @@ curl http://localhost:8080/predictions/resnet-18/2.0 -F <span class="s2">&quot;d
 <li><a class="reference internal" href="#id2">curl example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#kfserving-inference-api">KFServing Inference API</a><ul>
+<li><a class="reference internal" href="#kserve-inference-api">KServe Inference API</a><ul>
 <li><a class="reference internal" href="#id3">curl example</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#kfserving-explanations-api">KFServing Explanations API</a><ul>
+<li><a class="reference internal" href="#kserve-explanations-api">KServe Explanations API</a><ul>
 <li><a class="reference internal" href="#id4">curl example</a></li>
 </ul>
 </li>
@@ -559,11 +600,12 @@ curl http://localhost:8080/predictions/resnet-18/2.0 -F <span class="s2">&quot;d
 
      
        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
          <script src="_static/jquery.js"></script>
          <script src="_static/underscore.js"></script>
          <script src="_static/doctools.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
          <script src="_static/katex_autorenderer.js"></script>
      
 
