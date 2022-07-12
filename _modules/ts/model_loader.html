@@ -113,12 +113,20 @@
                   <span class="dropdown-title">torchvision</span>
                   <p></p>
                 </a>
-                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
-                  <span class="dropdown-title">TorchElastic</span>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchrec">
+                  <span class="dropdown-title">TorchRec</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/data">
+                  <span class="dropdown-title">TorchData</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
                   <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchx/">
+                  <span class="dropdown-title">TorchX</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
@@ -328,9 +336,7 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <h1>Source code for ts.model_loader</h1><div class="highlight"><pre>
-<span></span>
-
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Model loader.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
@@ -361,10 +367,20 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base Model Loader class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
 
 <div class="viewcode-block" id="ModelLoader.load"><a class="viewcode-back" href="../../api/ts.html#ts.model_loader.ModelLoader.load">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">model_dir</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit_max_image_pixels</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="p">,</span>
+        <span class="n">model_dir</span><span class="p">,</span>
+        <span class="n">handler</span><span class="p">,</span>
+        <span class="n">gpu_id</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit_max_image_pixels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load model from file.</span>
 
@@ -386,7 +402,16 @@
 <span class="sd">    TorchServe 1.0 Model Loader</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TsModelLoader.load"><a class="viewcode-back" href="../../api/ts.html#ts.model_loader.TsModelLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">model_dir</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit_max_image_pixels</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="TsModelLoader.load"><a class="viewcode-back" href="../../api/ts.html#ts.model_loader.TsModelLoader.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="p">,</span>
+        <span class="n">model_dir</span><span class="p">,</span>
+        <span class="n">handler</span><span class="p">,</span>
+        <span class="n">gpu_id</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">limit_max_image_pixels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load TorchServe 1.0 model from file.</span>
 
@@ -415,13 +440,25 @@
             <span class="n">module</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_default_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">module</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to load module </span><span class="si">{}</span><span class="s2">, make sure it is added to python path&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handler</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to load module </span><span class="si">{}</span><span class="s2">, make sure it is added to python path&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">handler</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">function_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">function_name</span> <span class="o">=</span> <span class="s2">&quot;handle&quot;</span>
 
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">function_name</span><span class="p">):</span>
             <span class="n">entry_point</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">function_name</span><span class="p">)</span>
-            <span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model_dir</span><span class="p">,</span> <span class="n">manifest</span><span class="p">,</span> <span class="n">entry_point</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">limit_max_image_pixels</span><span class="p">)</span>
+            <span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span>
+                <span class="n">model_name</span><span class="p">,</span>
+                <span class="n">model_dir</span><span class="p">,</span>
+                <span class="n">manifest</span><span class="p">,</span>
+                <span class="n">entry_point</span><span class="p">,</span>
+                <span class="n">gpu_id</span><span class="p">,</span>
+                <span class="n">batch_size</span><span class="p">,</span>
+                <span class="n">limit_max_image_pixels</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="n">envelope_class</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">envelope</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -429,7 +466,9 @@
 
         <span class="n">function_name</span> <span class="o">=</span> <span class="n">function_name</span> <span class="ow">or</span> <span class="s2">&quot;handle&quot;</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">function_name</span><span class="p">):</span>
-            <span class="n">entry_point</span><span class="p">,</span> <span class="n">initialize_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_function_entry_point</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">function_name</span><span class="p">)</span>
+            <span class="n">entry_point</span><span class="p">,</span> <span class="n">initialize_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_function_entry_point</span><span class="p">(</span>
+                <span class="n">module</span><span class="p">,</span> <span class="n">function_name</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">entry_point</span><span class="p">,</span> <span class="n">initialize_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_class_entry_point</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
 
@@ -437,7 +476,15 @@
             <span class="n">envelope_instance</span> <span class="o">=</span> <span class="n">envelope_class</span><span class="p">(</span><span class="n">entry_point</span><span class="p">)</span>
             <span class="n">entry_point</span> <span class="o">=</span> <span class="n">envelope_instance</span><span class="o">.</span><span class="n">handle</span>
 
-        <span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model_dir</span><span class="p">,</span> <span class="n">manifest</span><span class="p">,</span> <span class="n">entry_point</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">limit_max_image_pixels</span><span class="p">)</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">Service</span><span class="p">(</span>
+            <span class="n">model_name</span><span class="p">,</span>
+            <span class="n">model_dir</span><span class="p">,</span>
+            <span class="n">manifest</span><span class="p">,</span>
+            <span class="n">entry_point</span><span class="p">,</span>
+            <span class="n">gpu_id</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">limit_max_image_pixels</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">service</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
         <span class="n">initialize_fn</span><span class="p">(</span><span class="n">service</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
 
@@ -455,12 +502,14 @@
 
     <span class="k">def</span> <span class="nf">_load_default_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handler</span><span class="p">):</span>
         <span class="n">module_name</span> <span class="o">=</span> <span class="s2">&quot;.</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
-        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="s1">&#39;ts.torch_handler&#39;</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="s2">&quot;ts.torch_handler&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">module</span>
 
     <span class="k">def</span> <span class="nf">_load_default_envelope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">envelope</span><span class="p">):</span>
         <span class="n">module_name</span> <span class="o">=</span> <span class="s2">&quot;.</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">envelope</span><span class="p">)</span>
-        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="s1">&#39;ts.torch_handler.request_envelope&#39;</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span>
+            <span class="n">module_name</span><span class="p">,</span> <span class="s2">&quot;ts.torch_handler.request_envelope&quot;</span>
+        <span class="p">)</span>
         <span class="n">envelope_class</span> <span class="o">=</span> <span class="n">list_classes_from_module</span><span class="p">(</span><span class="n">module</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">envelope_class</span>
 
@@ -472,14 +521,19 @@
     <span class="k">def</span> <span class="nf">_get_class_entry_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
         <span class="n">model_class_definitions</span> <span class="o">=</span> <span class="n">list_classes_from_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_class_definitions</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expected only one class in custom service code or a function entry point </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">model_class_definitions</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Expected only one class in custom service code or a function entry point </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">model_class_definitions</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">model_class</span> <span class="o">=</span> <span class="n">model_class_definitions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">model_service</span> <span class="o">=</span> <span class="n">model_class</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_service</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expect handle method in class </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model_class</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Expect handle method in class </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model_class</span><span class="p">))</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model_service</span><span class="o">.</span><span class="n">handle</span><span class="p">,</span> <span class="n">model_service</span><span class="o">.</span><span class="n">initialize</span></div>
 </pre></div>
@@ -533,6 +587,7 @@
          <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
          <script src="../../_static/jquery.js"></script>
          <script src="../../_static/underscore.js"></script>
+         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
          <script src="../../_static/doctools.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
@@ -610,37 +665,6 @@
         <div class="footer-links-col follow-us-col">
           <ul>
             <li class="list-title">Stay Connected</li>
-            <li>
-              <div id="mc_embed_signup">
-                <form
-                  action="https://twitter.us14.list-manage.com/subscribe/post?u=75419c71fe0a935e53dfa4a3f&id=91d0dccd39"
-                  method="post"
-                  id="mc-embedded-subscribe-form"
-                  name="mc-embedded-subscribe-form"
-                  class="email-subscribe-form validate"
-                  target="_blank"
-                  novalidate>
-                  <div id="mc_embed_signup_scroll" class="email-subscribe-form-fields-wrapper">
-                    <div class="mc-field-group">
-                      <label for="mce-EMAIL" style="display:none;">Email Address</label>
-                      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address">
-                    </div>
-
-                    <div id="mce-responses" class="clear">
-                      <div class="response" id="mce-error-response" style="display:none"></div>
-                      <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_75419c71fe0a935e53dfa4a3f_91d0dccd39" tabindex="-1" value=""></div>
-
-                    <div class="clear">
-                      <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button email-subscribe-button">
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-            </li>
           </ul>
 
           <div class="footer-social-icons">
@@ -723,11 +747,11 @@
             </li>
 
             <li>
-              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
             </li>
 
             <li>
-              <a href="https://pytorch.org/serve/">TorchServe</a>
+              <a href="https://pytorch.org/torchx/">TorchX</a>
             </li>
 
             <li>

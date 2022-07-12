@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>11. Request Envelopes &mdash; PyTorch/Serve master documentation</title>
+  <title>Performance Guide &mdash; PyTorch/Serve master documentation</title>
   
 
   
@@ -35,8 +35,6 @@
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="12. Running TorchServe" href="server.html" />
-    <link rel="prev" title="10. Model Zoo" href="model_zoo.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -230,7 +228,7 @@
             
             
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">1. TorchServe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">2. Troubleshooting Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">3. Batch Inference with TorchServe</a></li>
@@ -241,7 +239,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logging.html">8. Logging in Torchserve</a></li>
 <li class="toctree-l1"><a class="reference internal" href="metrics.html">9. TorchServe Metrics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_zoo.html">10. Model Zoo</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">11. Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">11. Request Envelopes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server.html">12. Running TorchServe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="snapshot.html">13. TorchServe model snapshot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">14. TorchServe on Windows</a></li>
@@ -308,13 +306,13 @@
       </li>
 
         
-      <li><span class="section-number">11. </span>Request Envelopes</li>
+      <li>Performance Guide</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
         
             
-            <a href="_sources/request_envelopes.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+            <a href="_sources/performance_guide.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
           
         
       </li>
@@ -340,26 +338,41 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <section id="request-envelopes">
-<h1><span class="section-number">11. </span>Request Envelopes<a class="headerlink" href="#request-envelopes" title="Permalink to this heading">¶</a></h1>
-<p>Many model serving systems provide a signature for request bodies. Examples include:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://docs.seldon.io/projects/seldon-core/en/v1.1.0/graph/protocols.html">Seldon</a></p></li>
-<li><p><a class="reference external" href="https://kserve.github.io/website/">KServe</a></p></li>
-<li><p><a class="reference external" href="https://cloud.google.com/ai-platform/prediction/docs/online-predict">Google Cloud AI Platform</a></p></li>
-</ul>
-<p>Data scientists use these multi-framework systems to manage deployments of many different models, possibly written in different languages and frameworks. The platforms offer additional analytics on top of model serving, including skew detection, explanations and A/B testing. These platforms need a well-structured signature in order to both standardize calls across different frameworks and to understand the input data. To simplify support for many frameworks, though, these platforms will simply pass the request body along to the underlying model server.</p>
-<p>Torchserve currently has no fixed request body signature. Envelopes allow you to automatically translate from the fixed signature required for your model orchestrator to a flat Python list.</p>
-<section id="usage">
-<h2><span class="section-number">11.1. </span>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
-<ol class="simple">
-<li><p>When you write a handler, always expect a plain Python list containing data ready to go into <code class="docutils literal notranslate"><span class="pre">preprocess</span></code>. Crucially, you should assume that your handler code looks the same locally or in your model orchestrator.</p></li>
-<li><p>When you deploy Torchserve behind a model orchestrator, make sure to set the corresponding <code class="docutils literal notranslate"><span class="pre">service_envelope</span></code> in your <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file. For example, if you’re using Google Cloud AI Platform, which has a JSON format, you’d add <code class="docutils literal notranslate"><span class="pre">service_envelope=json</span></code> to your <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file.</p></li>
-</ol>
+  <section id="performance-guide">
+<h1>Performance Guide<a class="headerlink" href="#performance-guide" title="Permalink to this heading">¶</a></h1>
+<p>In case you’re interested in optimizing the memory usage, latency or throughput of a PyTorch model served with TorchServe, this is the guide for you.</p>
+<section id="optimizing-pytorch">
+<h2>Optimizing PyTorch<a class="headerlink" href="#optimizing-pytorch" title="Permalink to this heading">¶</a></h2>
+<p>There are many tricks to optimize PyTorch models for production including but not limited to distillation, quantization, fusion, pruning, setting environment variables and we encourage you to benchmark and see what works best for you. An experimental tool that may make this process is easier is https://github.com/pytorch/serve/tree/master/experimental/torchprep</p>
+<p>In general it’s hard to optimize models and the easiest approach can be exporting to some runtime like ORT, TensorRT, IPEX, FasterTransformer and we have many examples for how to integrate these runtimes in https://github.com/pytorch/serve/tree/master/examples. If your favorite runtime is not supported please feel free to open a PR.</p>
 </section>
-<section id="contributing">
-<h2><span class="section-number">11.2. </span>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">¶</a></h2>
-<p>Add new files under <a class="reference external" href="https://github.com/pytorch/serve/tree/master/ts/torch_handler">ts/torch_handler/request_envelope</a>. Only include one class per file. The key used in <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> will be the name of the .py file you write your class in.</p>
+<section id="optimizing-torchserve">
+<h2>Optimizing TorchServe<a class="headerlink" href="#optimizing-torchserve" title="Permalink to this heading">¶</a></h2>
+<p>The main settings you should vary if you’re trying to improve the performance of TorchServe from the <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> are the <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> and <code class="docutils literal notranslate"><span class="pre">batch_delay</span></code>. A larger batch size means a higher throughput at the cost of lower latency.</p>
+<p>The second most important settings are  number of workers and number of gpus which will have a dramatic impact on CPU and GPU performance. To configure them:</p>
+<section id="concurrency-and-number-of-workers">
+<h3>Concurrency And Number of Workers<a class="headerlink" href="#concurrency-and-number-of-workers" title="Permalink to this heading">¶</a></h3>
+<p>TorchServe exposes configurations that allow the user to configure the number of worker threads on CPU and GPUs. There is an important config property that can speed up the server depending on the workload.
+<em>Note: the following property has bigger impact under heavy workloads.</em></p>
+<p><strong>CPU</strong>: there is a config property called <code class="docutils literal notranslate"><span class="pre">workers</span></code> which sets the number of worker threads for a model. The best value to set <code class="docutils literal notranslate"><span class="pre">workers</span></code> to is to start with <code class="docutils literal notranslate"><span class="pre">num</span> <span class="pre">physical</span> <span class="pre">cores</span> <span class="pre">/</span> <span class="pre">2</span></code> and increase it as much possible after setting <code class="docutils literal notranslate"><span class="pre">torch.set_num_threads(1)</span></code> in your handler.</p>
+<p><strong>GPU</strong>: there is a config property called <code class="docutils literal notranslate"><span class="pre">number_of_gpu</span></code> that tells the server to use a specific number of GPUs per model. In cases where we register multiple models with the server, this will apply to all the models registered. If this is set to a low value (ex: 0 or 1), it will result in under-utilization of GPUs. On the contrary, setting to a high value (&gt;= max GPUs available on the system) results in as many workers getting spawned per model. Clearly, this will result in unnecessary contention for GPUs and can result in sub-optimal scheduling of threads to GPU.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ValueToSet</span> <span class="o">=</span> <span class="p">(</span><span class="n">Number</span> <span class="n">of</span> <span class="n">Hardware</span> <span class="n">GPUs</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Number</span> <span class="n">of</span> <span class="n">Unique</span> <span class="n">Models</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="benchmarking">
+<h2>Benchmarking<a class="headerlink" href="#benchmarking" title="Permalink to this heading">¶</a></h2>
+<p>To make comparing various model and TorchServe configurations easier to compare, we’ve added a few helper scripts that output performance data like p50, p90, p99 latency in a clean report here and mostly require you to determine some configuration either via JSON or YAML https://github.com/pytorch/serve/tree/master/benchmarks.</p>
+<p>If you’d like to run performance benchmarks checkout https://github.com/pytorch/serve/tree/master/benchmarks</p>
+</section>
+<section id="profiling">
+<h2>Profiling<a class="headerlink" href="#profiling" title="Permalink to this heading">¶</a></h2>
+<p>TorchServe has native support for the PyTorch profiler which will help you find performance bottlenecks in your code.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">ENABLE_TORCH_PROFILER</span><span class="o">=</span><span class="n">TRUE</span>
+</pre></div>
+</div>
+<p>To learn more about the PyTorch profiler https://github.com/pytorch/kineto/tree/main/tb_plugin</p>
 </section>
 </section>
 
@@ -368,15 +381,6 @@
              
             </div>
             <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="server.html" class="btn btn-neutral float-right" title="12. Running TorchServe" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
-      
-      
-        <a href="model_zoo.html" class="btn btn-neutral" title="10. Model Zoo" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
-      
-    </div>
   
 
   
@@ -406,9 +410,14 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">11. Request Envelopes</a><ul>
-<li><a class="reference internal" href="#usage">11.1. Usage</a></li>
-<li><a class="reference internal" href="#contributing">11.2. Contributing</a></li>
+<li><a class="reference internal" href="#">Performance Guide</a><ul>
+<li><a class="reference internal" href="#optimizing-pytorch">Optimizing PyTorch</a></li>
+<li><a class="reference internal" href="#optimizing-torchserve">Optimizing TorchServe</a><ul>
+<li><a class="reference internal" href="#concurrency-and-number-of-workers">Concurrency And Number of Workers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#benchmarking">Benchmarking</a></li>
+<li><a class="reference internal" href="#profiling">Profiling</a></li>
 </ul>
 </li>
 </ul>

@@ -10,7 +10,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>11. Request Envelopes &mdash; PyTorch/Serve master documentation</title>
+  <title>TorchServe internals &mdash; PyTorch/Serve master documentation</title>
   
 
   
@@ -35,8 +35,6 @@
   <link rel="stylesheet" href="_static/katex-math.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="12. Running TorchServe" href="server.html" />
-    <link rel="prev" title="10. Model Zoo" href="model_zoo.html" />
   <!-- Google Analytics -->
   
   <!-- End Google Analytics -->
@@ -230,7 +228,7 @@
             
             
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">1. TorchServe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">2. Troubleshooting Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="batch_inference_with_ts.html">3. Batch Inference with TorchServe</a></li>
@@ -241,7 +239,7 @@
 <li class="toctree-l1"><a class="reference internal" href="logging.html">8. Logging in Torchserve</a></li>
 <li class="toctree-l1"><a class="reference internal" href="metrics.html">9. TorchServe Metrics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model_zoo.html">10. Model Zoo</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">11. Request Envelopes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_envelopes.html">11. Request Envelopes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server.html">12. Running TorchServe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="snapshot.html">13. TorchServe model snapshot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="torchserve_on_win_native.html">14. TorchServe on Windows</a></li>
@@ -308,13 +306,13 @@
       </li>
 
         
-      <li><span class="section-number">11. </span>Request Envelopes</li>
+      <li>TorchServe internals</li>
     
     
       <li class="pytorch-breadcrumbs-aside">
         
             
-            <a href="_sources/request_envelopes.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
+            <a href="_sources/internals.md.txt" rel="nofollow"><img src="_static/images/view-page-source-icon.svg"></a>
           
         
       </li>
@@ -340,26 +338,123 @@
             <div role="main" class="main-content" itemscope="itemscope" itemtype="http://schema.org/Article">
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
-  <section id="request-envelopes">
-<h1><span class="section-number">11. </span>Request Envelopes<a class="headerlink" href="#request-envelopes" title="Permalink to this heading">¶</a></h1>
-<p>Many model serving systems provide a signature for request bodies. Examples include:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://docs.seldon.io/projects/seldon-core/en/v1.1.0/graph/protocols.html">Seldon</a></p></li>
-<li><p><a class="reference external" href="https://kserve.github.io/website/">KServe</a></p></li>
-<li><p><a class="reference external" href="https://cloud.google.com/ai-platform/prediction/docs/online-predict">Google Cloud AI Platform</a></p></li>
-</ul>
-<p>Data scientists use these multi-framework systems to manage deployments of many different models, possibly written in different languages and frameworks. The platforms offer additional analytics on top of model serving, including skew detection, explanations and A/B testing. These platforms need a well-structured signature in order to both standardize calls across different frameworks and to understand the input data. To simplify support for many frameworks, though, these platforms will simply pass the request body along to the underlying model server.</p>
-<p>Torchserve currently has no fixed request body signature. Envelopes allow you to automatically translate from the fixed signature required for your model orchestrator to a flat Python list.</p>
-<section id="usage">
-<h2><span class="section-number">11.1. </span>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
-<ol class="simple">
-<li><p>When you write a handler, always expect a plain Python list containing data ready to go into <code class="docutils literal notranslate"><span class="pre">preprocess</span></code>. Crucially, you should assume that your handler code looks the same locally or in your model orchestrator.</p></li>
-<li><p>When you deploy Torchserve behind a model orchestrator, make sure to set the corresponding <code class="docutils literal notranslate"><span class="pre">service_envelope</span></code> in your <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file. For example, if you’re using Google Cloud AI Platform, which has a JSON format, you’d add <code class="docutils literal notranslate"><span class="pre">service_envelope=json</span></code> to your <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file.</p></li>
-</ol>
+  <section id="torchserve-internals">
+<h1>TorchServe internals<a class="headerlink" href="#torchserve-internals" title="Permalink to this heading">¶</a></h1>
+<p>TorchServe was designed a multi model inferencing framework. A production grade inferencing framework needs both APIs to request inferences but also APIs to manage models all the while keeping track of logs. TorchServe manages several worker processes that are dynamically assigned to different models with the behavior of those workers determined by a handler file and a model store where weights are loaded from.</p>
 </section>
-<section id="contributing">
-<h2><span class="section-number">11.2. </span>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">¶</a></h2>
-<p>Add new files under <a class="reference external" href="https://github.com/pytorch/serve/tree/master/ts/torch_handler">ts/torch_handler/request_envelope</a>. Only include one class per file. The key used in <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> will be the name of the .py file you write your class in.</p>
+<section id="torchserve-architecture">
+<h1>TorchServe Architecture<a class="headerlink" href="#torchserve-architecture" title="Permalink to this heading">¶</a></h1>
+<p><img alt="Architecture Diagram" src="https://user-images.githubusercontent.com/880376/83180095-c44cc600-a0d7-11ea-97c1-23abb4cdbe4d.jpg" /></p>
+<section id="terminology">
+<h2>Terminology:<a class="headerlink" href="#terminology" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Frontend</strong>: The request/response handling component of TorchServe. This portion of the serving component handles both request/response coming from clients and manages the lifecycles of the models.</p></li>
+<li><p><strong>Model Workers</strong>: These workers are responsible for running the actual inference on the models.</p></li>
+<li><p><strong>Model</strong>: Models could be a <code class="docutils literal notranslate"><span class="pre">script_module</span></code> (JIT saved models) or <code class="docutils literal notranslate"><span class="pre">eager_mode_models</span></code>. These models can provide custom pre- and post-processing of data along with any other model artifacts such as state_dicts. Models can be loaded from cloud storage or from local hosts.</p></li>
+<li><p><strong>Plugins</strong>: These are custom endpoints or authz/authn or batching algorithms that can be dropped into TorchServe at startup time.</p></li>
+<li><p><strong>Model Store</strong>: This is a directory in which all the loadable models exist.</p></li>
+</ul>
+</section>
+</section>
+<section id="pytorch-serve-directories-and-what-they-do">
+<h1>pytorch/serve directories and what they do<a class="headerlink" href="#pytorch-serve-directories-and-what-they-do" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.github</span></code>: CI for docs and nightly builds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">benchmarks</span></code>: tools to benchmark torchserve on reference models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">binaries</span></code>: utilities to create binaries for pypi, conda and docker</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docker</span></code>: user and dev dockerfiles to use torchserve</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs</span></code>: documentation for pytorch.org/serve</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">examples</span></code>: reference examples</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">experimental</span></code>: projects with no support or backwards compatibility guarantees</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">frontend</span></code>: Core Java engine for TorchServe</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kubernetes</span></code>: how to deploy TorchServe in a K8 cluster</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model-archiver</span></code>: model package CLI</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plugins</span></code>: extend core TorchServe</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements</span></code>: requirements.txt</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">serving_sdk</span></code>: SDK to support TorchServe in sagemaker</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test</span></code>: tests</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ts_scripts</span></code>: useful utility filees that don’t fit in any other folder</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">workflow-archiver</span></code>: workflow package CLI</p></li>
+</ul>
+</section>
+<section id="important-files-for-the-core-torchserve-engine">
+<h1>Important files for the core TorchServe engine<a class="headerlink" href="#important-files-for-the-core-torchserve-engine" title="Permalink to this heading">¶</a></h1>
+<p>Frontend means the Java part of the code (potentially C++)</p>
+<p>And backend is the Python code (most Pytorch specific stuff)</p>
+<section id="backend-python">
+<h2>Backend (Python)<a class="headerlink" href="#backend-python" title="Permalink to this heading">¶</a></h2>
+<p>https://github.com/pytorch/serve/blob/master/ts/arg_parser.py#L64</p>
+<ul class="simple">
+<li><p>Arg parser controls config/not workflow and can also setup a model service worker with a custom socket</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/master/ts/context.py</p>
+<ul class="simple">
+<li><p>Context object of incoming request - keeps model relevant worker information</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/master/ts/model_server.py</p>
+<ul class="simple">
+<li><p>model server open up pid and start torchserve by using the arg parser</p></li>
+<li><p>If stopping it they use psutil.Process(pid).terminate()</p></li>
+<li><p>loads config.properties</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/master/ts/model_loader.py</p>
+<ul class="simple">
+<li><p>Model loader</p></li>
+<li><p>Uses manifest file to find handler and envelope and starts the service</p></li>
+<li><p>Loads either default handler or custom handler</p></li>
+<li><p>Request envelopes which make it easier to interact with other systems like Seldon, KFserving, Google cloud AI platform</p></li>
+</ul>
+</section>
+<section id="frontend-java">
+<h2>Frontend (Java)<a class="headerlink" href="#frontend-java" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">../gradlew</span> <span class="pre">startServer</span></code></p>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/WorkerStateListener.java</p>
+<ul class="simple">
+<li><p>Takes care of closing workers</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/WorkerState.java</p>
+<ul class="simple">
+<li><p>Just an enum of worker states</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/WorkLoadManager.java</p>
+<ul class="simple">
+<li><p>Get number of running workers</p></li>
+<li><p>Number of workers which is just a concurrent hashmap, bakendgroup, ports etc are all here</p></li>
+<li><p>Add worker threads by submitting them to a threadpool Executor Service (create a pool of threads and assign tasks or worker threads to it)</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/BatchAggregator.java</p>
+<ul class="simple">
+<li><p>Batch aggregator</p></li>
+<li><p>Puts requests and responses in a list</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/Model.java</p>
+<ul class="simple">
+<li><p>Keeps track of workers, batch size, timeout, version and mar name</p></li>
+<li><p>Encoding the model state in a JSON and then pulling properties from it</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/job/Job.java</p>
+<ul class="simple">
+<li><p>Keeps track of jobs which are either inference or management requests</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/ts/metrics/system_metrics.py</p>
+<ul class="simple">
+<li><p>Many metrics are just added using psutil package in Python</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/ModelManager.java</p>
+<ul class="simple">
+<li><p>Model registration calling https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/util/ApiUtils.java</p></li>
+<li><p>Install model dependencies</p></li>
+<li><p>create model archive</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/util/ConfigManager.java</p>
+<ul class="simple">
+<li><p>All configs managed here</p></li>
+</ul>
+<p>https://github.com/pytorch/serve/blob/8903ca1fb059eab3c1e8eccdee1376d4ff52fb67/frontend/server/src/main/java/org/pytorch/serve/wlm/WorkerThread.java</p>
+<ul class="simple">
+<li><p>Get GPU usage</p></li>
+<li><p>Worker thread has model, aggregator, listener, eventloop, port etc and then a run function which connects it to a request</p></li>
+</ul>
 </section>
 </section>
 
@@ -368,15 +463,6 @@
              
             </div>
             <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="server.html" class="btn btn-neutral float-right" title="12. Running TorchServe" accesskey="n" rel="next">Next <img src="_static/images/chevron-right-orange.svg" class="next-page"></a>
-      
-      
-        <a href="model_zoo.html" class="btn btn-neutral" title="10. Model Zoo" accesskey="p" rel="prev"><img src="_static/images/chevron-right-orange.svg" class="previous-page"> Previous</a>
-      
-    </div>
   
 
   
@@ -406,9 +492,15 @@
           <div class="pytorch-right-menu" id="pytorch-right-menu">
             <div class="pytorch-side-scroll" id="pytorch-side-scroll-right">
               <ul>
-<li><a class="reference internal" href="#">11. Request Envelopes</a><ul>
-<li><a class="reference internal" href="#usage">11.1. Usage</a></li>
-<li><a class="reference internal" href="#contributing">11.2. Contributing</a></li>
+<li><a class="reference internal" href="#">TorchServe internals</a></li>
+<li><a class="reference internal" href="#torchserve-architecture">TorchServe Architecture</a><ul>
+<li><a class="reference internal" href="#terminology">Terminology:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#pytorch-serve-directories-and-what-they-do">pytorch/serve directories and what they do</a></li>
+<li><a class="reference internal" href="#important-files-for-the-core-torchserve-engine">Important files for the core TorchServe engine</a><ul>
+<li><a class="reference internal" href="#backend-python">Backend (Python)</a></li>
+<li><a class="reference internal" href="#frontend-java">Frontend (Java)</a></li>
 </ul>
 </li>
 </ul>

@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -116,12 +116,20 @@
                   <span class="dropdown-title">torchvision</span>
                   <p></p>
                 </a>
-                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
-                  <span class="dropdown-title">TorchElastic</span>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchrec">
+                  <span class="dropdown-title">TorchRec</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/data">
+                  <span class="dropdown-title">TorchData</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
                   <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchx/">
+                  <span class="dropdown-title">TorchX</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
@@ -333,12 +341,12 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <section id="logging-in-torchserve">
-<h1><span class="section-number">8. </span>Logging in Torchserve<a class="headerlink" href="#logging-in-torchserve" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">8. </span>Logging in Torchserve<a class="headerlink" href="#logging-in-torchserve" title="Permalink to this heading">¶</a></h1>
 <p>In this document we explain logging in TorchServe. We also explain how to modify the behavior of logging in the model server.
 Logging in TorchServe also covers metrics, as metrics are logged into a file.
 To further understand how to customize metrics or define custom logging layouts, see <a class="reference internal" href="metrics.html"><span class="doc">Metrics on TorchServe</span></a></p>
 <section id="prerequisites">
-<h2><span class="section-number">8.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Be familiar with log4j2 configuration.
 For information on how to configure log4j parameters, see <a class="reference external" href="https://logging.apache.org/log4j/2.x/manual/configuration.html">Logging Services</a>.</p></li>
@@ -346,14 +354,14 @@ For information on how to configure log4j parameters, see <a class="reference ex
 </ul>
 </section>
 <section id="types-of-logs">
-<h2><span class="section-number">8.2. </span>Types of logs<a class="headerlink" href="#types-of-logs" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.2. </span>Types of logs<a class="headerlink" href="#types-of-logs" title="Permalink to this heading">¶</a></h2>
 <p>TorchServe currently provides the following types of logs</p>
 <ol class="simple">
 <li><p>Access logs</p></li>
 <li><p>TorchServe logs</p></li>
 </ol>
 <section id="access-logs">
-<h3><span class="section-number">8.2.1. </span>Access Logs<a class="headerlink" href="#access-logs" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.2.1. </span>Access Logs<a class="headerlink" href="#access-logs" title="Permalink to this heading">¶</a></h3>
 <p>These logs collect the access pattern to TorchServe. The configuration for access logs are as follows:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>		<span class="nt">&lt;RollingFile</span>
 				<span class="na">name=</span><span class="s">&quot;access_log&quot;</span>
@@ -377,7 +385,7 @@ When you load TorchServe with a model and run inference against the server, the 
 <p>These logs are useful to determine the current performance of the model-server as well as understand the requests received by model-server.</p>
 </section>
 <section id="torchserve-logs">
-<h3><span class="section-number">8.2.2. </span>TorchServe Logs<a class="headerlink" href="#torchserve-logs" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.2.2. </span>TorchServe Logs<a class="headerlink" href="#torchserve-logs" title="Permalink to this heading">¶</a></h3>
 <p>These logs collect all the logs from TorchServe and from the backend workers (the custom model code).
 The default configuration pertaining to TorchServe logs are as follows:</p>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span>		<span class="nt">&lt;RollingFile</span>
@@ -397,7 +405,7 @@ The default configuration pertaining to TorchServe logs are as follows:</p>
 </section>
 </section>
 <section id="generate-custom-logs">
-<h2><span class="section-number">8.3. </span>Generate custom logs<a class="headerlink" href="#generate-custom-logs" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.3. </span>Generate custom logs<a class="headerlink" href="#generate-custom-logs" title="Permalink to this heading">¶</a></h2>
 <p>You might want to generate custom logs. This could be for debugging purposes or to log any errors.
 To do this, print the required logs to <code class="docutils literal notranslate"><span class="pre">stdout/stderr</span></code>.
 TorchServe captures the logs generated by the backend workers and logs it into the log file. Some examples of logs are as follows:</p>
@@ -419,10 +427,10 @@ e...
 </div>
 </section>
 <section id="modify-the-behavior-of-the-logs">
-<h2><span class="section-number">8.4. </span>Modify the behavior of the logs<a class="headerlink" href="#modify-the-behavior-of-the-logs" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.4. </span>Modify the behavior of the logs<a class="headerlink" href="#modify-the-behavior-of-the-logs" title="Permalink to this heading">¶</a></h2>
 <p>To modify the default logging behavior, define a <code class="docutils literal notranslate"><span class="pre">log4j2.xml</span></code> file. There are two ways of starting TorchServe with custom logs:</p>
 <section id="provide-with-config-properties">
-<h3><span class="section-number">8.4.1. </span>Provide with config.properties<a class="headerlink" href="#provide-with-config-properties" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">8.4.1. </span>Provide with config.properties<a class="headerlink" href="#provide-with-config-properties" title="Permalink to this heading">¶</a></h3>
 <p>After you define a custom <code class="docutils literal notranslate"><span class="pre">log4j2.xml</span></code> file, add the following to the <code class="docutils literal notranslate"><span class="pre">config.properties</span></code> file:</p>
 <div class="highlight-properties notranslate"><div class="highlight"><pre><span></span><span class="na">vmargs</span><span class="o">=</span><span class="s">-Dlog4j.configurationFile=file:///path/to/custom/log4j2.xml</span>
 </pre></div>
@@ -438,7 +446,7 @@ e...
 </section>
 </section>
 <section id="enable-asynchronous-logging">
-<h2><span class="section-number">8.5. </span>Enable asynchronous logging<a class="headerlink" href="#enable-asynchronous-logging" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">8.5. </span>Enable asynchronous logging<a class="headerlink" href="#enable-asynchronous-logging" title="Permalink to this heading">¶</a></h2>
 <p>If your model is super lightweight and you want high throughput, consider enabling asynchronous logging.
 Log output might be delayed, and the most recent log might be lost if TorchServe is terminated unexpectedly.
 Asynchronous logging is disabled by default.
@@ -525,6 +533,7 @@ To enable asynchronous logging, add following property in <code class="docutils 
          <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
          <script src="_static/jquery.js"></script>
          <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
          <script src="_static/doctools.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
@@ -602,37 +611,6 @@ To enable asynchronous logging, add following property in <code class="docutils 
         <div class="footer-links-col follow-us-col">
           <ul>
             <li class="list-title">Stay Connected</li>
-            <li>
-              <div id="mc_embed_signup">
-                <form
-                  action="https://twitter.us14.list-manage.com/subscribe/post?u=75419c71fe0a935e53dfa4a3f&id=91d0dccd39"
-                  method="post"
-                  id="mc-embedded-subscribe-form"
-                  name="mc-embedded-subscribe-form"
-                  class="email-subscribe-form validate"
-                  target="_blank"
-                  novalidate>
-                  <div id="mc_embed_signup_scroll" class="email-subscribe-form-fields-wrapper">
-                    <div class="mc-field-group">
-                      <label for="mce-EMAIL" style="display:none;">Email Address</label>
-                      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address">
-                    </div>
-
-                    <div id="mce-responses" class="clear">
-                      <div class="response" id="mce-error-response" style="display:none"></div>
-                      <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_75419c71fe0a935e53dfa4a3f_91d0dccd39" tabindex="-1" value=""></div>
-
-                    <div class="clear">
-                      <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button email-subscribe-button">
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-            </li>
           </ul>
 
           <div class="footer-social-icons">
@@ -715,11 +693,11 @@ To enable asynchronous logging, add following property in <code class="docutils 
             </li>
 
             <li>
-              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
             </li>
 
             <li>
-              <a href="https://pytorch.org/serve/">TorchServe</a>
+              <a href="https://pytorch.org/torchx/">TorchX</a>
             </li>
 
             <li>

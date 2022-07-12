@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -116,12 +116,20 @@
                   <span class="dropdown-title">torchvision</span>
                   <p></p>
                 </a>
-                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
-                  <span class="dropdown-title">TorchElastic</span>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchrec">
+                  <span class="dropdown-title">TorchRec</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/data">
+                  <span class="dropdown-title">TorchData</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
                   <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchx/">
+                  <span class="dropdown-title">TorchX</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
@@ -335,7 +343,7 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <section id="management-api">
-<h1>Management API<a class="headerlink" href="#management-api" title="Permalink to this headline">¶</a></h1>
+<h1>Management API<a class="headerlink" href="#management-api" title="Permalink to this heading">¶</a></h1>
 <p>TorchServe provides the following APIs that allows you to manage workflows at runtime:</p>
 <ol class="simple">
 <li><p><a class="reference external" href="#register-a-workflow">Register a workflow</a></p></li>
@@ -345,7 +353,7 @@
 </ol>
 <p>The Workflow Management API listens on port 8081 and is only accessible from localhost by default. To change the default setting, see <a class="reference internal" href="configuration.html"><span class="doc">TorchServe Configuration</span></a>.</p>
 <section id="register-a-workflow">
-<h2>Register a workflow<a class="headerlink" href="#register-a-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>Register a workflow<a class="headerlink" href="#register-a-workflow" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/workflows</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">url</span></code> - Workflow archive download url. Supports the following locations:</p>
@@ -366,7 +374,7 @@
 <p>The workflow registration API parses the workflow specification file (.yaml) supplied in the workflow archive(.war) and registers all the models specified in the DAG with TorchServe using the provided configuration in the specification.</p>
 </section>
 <section id="describe-workflow">
-<h2>Describe workflow<a class="headerlink" href="#describe-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>Describe workflow<a class="headerlink" href="#describe-workflow" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/workflows/{workflow_name}</span></code></p>
 <p>Use the Describe Workflow API to get detail of a workflow:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl http://localhost:8081/workflows/myworkflow
@@ -385,7 +393,7 @@
 </div>
 </section>
 <section id="unregister-a-workflow">
-<h2>Unregister a workflow<a class="headerlink" href="#unregister-a-workflow" title="Permalink to this headline">¶</a></h2>
+<h2>Unregister a workflow<a class="headerlink" href="#unregister-a-workflow" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/workflows/{workflow_name}</span></code></p>
 <p>Use the Unregister Workflow API to free up system resources by unregistering a workflow from TorchServe:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X DELETE http://localhost:8081/workflows/myworkflow
@@ -397,7 +405,7 @@
 </div>
 </section>
 <section id="list-workflows">
-<h2>List workflows<a class="headerlink" href="#list-workflows" title="Permalink to this headline">¶</a></h2>
+<h2>List workflows<a class="headerlink" href="#list-workflows" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/models</span></code></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">limit</span></code> - (optional) the maximum number of items to return. It is passed as a query parameter. The default value is <code class="docutils literal notranslate"><span class="pre">100</span></code>.</p></li>
@@ -496,6 +504,7 @@
          <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
          <script src="_static/jquery.js"></script>
          <script src="_static/underscore.js"></script>
+         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
          <script src="_static/doctools.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
@@ -573,37 +582,6 @@
         <div class="footer-links-col follow-us-col">
           <ul>
             <li class="list-title">Stay Connected</li>
-            <li>
-              <div id="mc_embed_signup">
-                <form
-                  action="https://twitter.us14.list-manage.com/subscribe/post?u=75419c71fe0a935e53dfa4a3f&id=91d0dccd39"
-                  method="post"
-                  id="mc-embedded-subscribe-form"
-                  name="mc-embedded-subscribe-form"
-                  class="email-subscribe-form validate"
-                  target="_blank"
-                  novalidate>
-                  <div id="mc_embed_signup_scroll" class="email-subscribe-form-fields-wrapper">
-                    <div class="mc-field-group">
-                      <label for="mce-EMAIL" style="display:none;">Email Address</label>
-                      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address">
-                    </div>
-
-                    <div id="mce-responses" class="clear">
-                      <div class="response" id="mce-error-response" style="display:none"></div>
-                      <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_75419c71fe0a935e53dfa4a3f_91d0dccd39" tabindex="-1" value=""></div>
-
-                    <div class="clear">
-                      <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button email-subscribe-button">
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-            </li>
           </ul>
 
           <div class="footer-social-icons">
@@ -686,11 +664,11 @@
             </li>
 
             <li>
-              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
             </li>
 
             <li>
-              <a href="https://pytorch.org/serve/">TorchServe</a>
+              <a href="https://pytorch.org/torchx/">TorchX</a>
             </li>
 
             <li>

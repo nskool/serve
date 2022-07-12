@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -116,12 +116,20 @@
                   <span class="dropdown-title">torchvision</span>
                   <p></p>
                 </a>
-                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/elastic/">
-                  <span class="dropdown-title">TorchElastic</span>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchrec">
+                  <span class="dropdown-title">TorchRec</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/data">
+                  <span class="dropdown-title">TorchData</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/serve/">
                   <span class="dropdown-title">TorchServe</span>
+                  <p></p>
+                </a>
+                <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/torchx/">
+                  <span class="dropdown-title">TorchX</span>
                   <p></p>
                 </a>
                 <a class="doc-dropdown-option nav-dropdown-item" href="https://pytorch.org/xla">
@@ -337,12 +345,12 @@
              <article itemprop="articleBody" id="pytorch-article" class="pytorch-article">
               
   <section id="ts-model-service-package">
-<h1>ts.model_service package<a class="headerlink" href="#ts-model-service-package" title="Permalink to this headline">¶</a></h1>
+<h1>ts.model_service package<a class="headerlink" href="#ts-model-service-package" title="Permalink to this heading">¶</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
 <section id="module-ts.model_service.model_service">
-<span id="ts-model-service-model-service-module"></span><h2>ts.model_service.model_service module<a class="headerlink" href="#module-ts.model_service.model_service" title="Permalink to this headline">¶</a></h2>
+<span id="ts-model-service-model-service-module"></span><h2>ts.model_service.model_service module<a class="headerlink" href="#module-ts.model_service.model_service" title="Permalink to this heading">¶</a></h2>
 <p><cite>ModelService</cite> defines an API for base model service.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="ts.model_service.model_service.ModelService">
@@ -356,13 +364,13 @@ be easily extended to support different frameworks.</p>
 <span class="sig-name descname"><span class="pre">handle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#ModelService.handle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.ModelService.handle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backward compatible handle function.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> – </p></li>
 <li><p><strong>context</strong> – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -373,13 +381,13 @@ be easily extended to support different frameworks.</p>
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#ModelService.inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.ModelService.inference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper function to run pre-process, inference and post-process functions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>list of object</em>) – Raw input from request.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>data to be sent back</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of outputs to be sent back to client.</p>
 </dd>
 </dl>
@@ -390,10 +398,10 @@ be easily extended to support different frameworks.</p>
 <span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#ModelService.initialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.ModelService.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internal initialize ModelService.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>context</strong> – MMS context object</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -404,10 +412,10 @@ be easily extended to support different frameworks.</p>
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#ModelService.ping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.ModelService.ping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ping to get system’s health.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A message, “health”: “healthy!”, to show system is healthy.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>String</p>
 </dd>
 </dl>
@@ -418,10 +426,10 @@ be easily extended to support different frameworks.</p>
 <span class="sig-name descname"><span class="pre">signature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#ModelService.signature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.ModelService.signature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Signature for model service.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Model service signature.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Dict</p>
 </dd>
 </dl>
@@ -432,7 +440,7 @@ be easily extended to support different frameworks.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="ts.model_service.model_service.SingleNodeService">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ts.model_service.model_service.</span></span><span class="sig-name descname"><span class="pre">SingleNodeService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">manifest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#SingleNodeService"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.SingleNodeService" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#ts.model_service.model_service.ModelService" title="ts.model_service.model_service.ModelService"><code class="xref py py-class docutils literal notranslate"><span class="pre">ts.model_service.model_service.ModelService</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#ts.model_service.model_service.ModelService" title="ts.model_service.model_service.ModelService"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelService</span></code></a></p>
 <p>SingleNodeModel defines abstraction for model service which loads a
 single model.</p>
 <dl class="py method">
@@ -440,13 +448,13 @@ single model.</p>
 <span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ts/model_service/model_service.html#SingleNodeService.inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ts.model_service.model_service.SingleNodeService.inference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper function to run preprocess, inference and postprocess functions.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>list of object</em>) – Raw input from request.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>data to be sent back</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of outputs to be sent back to client.</p>
 </dd>
 </dl>
@@ -456,7 +464,7 @@ single model.</p>
 
 </section>
 <section id="module-ts.model_service">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ts.model_service" title="Permalink to this headline">¶</a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ts.model_service" title="Permalink to this heading">¶</a></h2>
 <p>Model services code</p>
 </section>
 </section>
@@ -528,6 +536,7 @@ single model.</p>
          <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
          <script src="../_static/jquery.js"></script>
          <script src="../_static/underscore.js"></script>
+         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
          <script src="../_static/doctools.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"></script>
@@ -605,37 +614,6 @@ single model.</p>
         <div class="footer-links-col follow-us-col">
           <ul>
             <li class="list-title">Stay Connected</li>
-            <li>
-              <div id="mc_embed_signup">
-                <form
-                  action="https://twitter.us14.list-manage.com/subscribe/post?u=75419c71fe0a935e53dfa4a3f&id=91d0dccd39"
-                  method="post"
-                  id="mc-embedded-subscribe-form"
-                  name="mc-embedded-subscribe-form"
-                  class="email-subscribe-form validate"
-                  target="_blank"
-                  novalidate>
-                  <div id="mc_embed_signup_scroll" class="email-subscribe-form-fields-wrapper">
-                    <div class="mc-field-group">
-                      <label for="mce-EMAIL" style="display:none;">Email Address</label>
-                      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email Address">
-                    </div>
-
-                    <div id="mce-responses" class="clear">
-                      <div class="response" id="mce-error-response" style="display:none"></div>
-                      <div class="response" id="mce-success-response" style="display:none"></div>
-                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_75419c71fe0a935e53dfa4a3f_91d0dccd39" tabindex="-1" value=""></div>
-
-                    <div class="clear">
-                      <input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="button email-subscribe-button">
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-            </li>
           </ul>
 
           <div class="footer-social-icons">
@@ -718,11 +696,11 @@ single model.</p>
             </li>
 
             <li>
-              <a href="https://pytorch.org/elastic/">TorchElastic</a>
+              <a href="https://pytorch.org/serve/">TorchServe</a>
             </li>
 
             <li>
-              <a href="https://pytorch.org/serve/">TorchServe</a>
+              <a href="https://pytorch.org/torchx/">TorchX</a>
             </li>
 
             <li>
